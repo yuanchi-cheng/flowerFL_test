@@ -13,7 +13,7 @@ def fit_round(server_round: int) -> Dict:
 def get_evaluate_fn(model: LogisticRegression):
     """Return an evaluation function for server-side evaluation."""
 
-    file_paths = ['../../nsl-kdd/KDDTrain+.txt', '../../nsl-kdd/KDDTest+.txt']
+    file_paths = ['./nsl-kdd/KDDTrain+.txt', './nsl-kdd/KDDTest+.txt']
 
     # Load test data here to avoid the overhead of doing it in `evaluate` itself
     _, (X_test, y_test) = utils.preprocessing(file_path_train=file_paths[0], file_path_test=file_paths[1])
