@@ -1,4 +1,9 @@
 # flowerFL_test
+## Requirements (需要裝的套件)
+- flwr
+- pandas
+- numpy
+- sklearn
 ## Run Code
 直接跑`.sh`檔就可以了
 ## Note
