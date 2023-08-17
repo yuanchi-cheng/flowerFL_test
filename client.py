@@ -9,7 +9,7 @@ from sklearn.metrics import accuracy_score, precision_score, recall_score
 import utils
 
 if __name__ == "__main__":
-    file_paths = ['../../nsl-kdd/KDDTrain+.txt', '../../nsl-kdd/KDDTest+.txt']
+    file_paths = ['./nsl-kdd/KDDTrain+.txt', './nsl-kdd/KDDTest+.txt']
     
     (X_train, y_train), (X_test, y_test) = utils.preprocessing(
         file_path_train=file_paths[0], file_path_test=file_paths[1])
