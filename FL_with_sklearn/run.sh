@@ -1,12 +1,12 @@
 #!/bin/bash
 
 echo "Starting server"
-python server.py &
+python3 ./server.py &
 sleep 3  # Sleep for 3s to give the server enough time to start
 
 for i in `seq 0 5`; do
-    echo "Starting client $i"
-    python client.py &
+  echo "Starting client $i"
+  python3 ./client.py &
 done
 
 # This will allow you to use CTRL+C to stop all background processes
