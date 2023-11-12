@@ -54,6 +54,31 @@ if __name__ == "__main__":
         evaluate_fn=get_evaluate_fn(model),
         on_fit_config_fn=fit_round,
         )
+    elif args.strategy == 'fedavgQ' : 
+        strategy = fl.server.strategy.QFedAvg(
+        min_available_clients=2,
+        evaluate_fn=get_evaluate_fn(model),
+        on_fit_config_fn=fit_round,
+        )
+    elif args.strategy == 'fedfaulttol' : 
+        strategy = fl.server.strategy.FaultTolerantFedAvg(
+        min_available_clients=2,
+        evaluate_fn=get_evaluate_fn(model),
+        on_fit_config_fn=fit_round,
+        )
+    elif args.strategy == 'fedtrim' : 
+        strategy = fl.server.strategy.FedTrimmedAvg(
+        min_available_clients=2,
+        evaluate_fn=get_evaluate_fn(model),
+        on_fit_config_fn=fit_round,
+        )
+    elif args.strategy == 'FedXgbNn' : 
+        strategy = fl.server.strategy.FedXgbNnAvg(
+        min_available_clients=2,
+        evaluate_fn=get_evaluate_fn(model),
+        on_fit_config_fn=fit_round,
+        )
+   
     wandb.init(project="FL-trying", entity="circoval1001")
     wandb.config.update(args)
     fl.server.start_server(
