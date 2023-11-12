@@ -4,6 +4,7 @@
 - pandas
 - numpy
 - sklearn
+- wandb
 ## Run Code
 直接跑`.sh`檔就可以了
 ## Note
