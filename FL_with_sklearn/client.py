@@ -1,13 +1,14 @@
 import warnings
 import flwr as fl
 import numpy as np
-
+import argparse
+import wandb 
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import log_loss
 from sklearn.metrics import accuracy_score, precision_score, recall_score
 
 import utils
-
+wandb.init(project="FL-trying", entity="circoval1001")
 if __name__ == "__main__":
     file_paths = ['../nsl-kdd/KDDTrain+.txt', '../nsl-kdd/KDDTest+.txt']
     
@@ -45,6 +46,8 @@ if __name__ == "__main__":
             utils.set_model_params(model, parameters)
             loss = log_loss(y_test, model.predict_proba(X_test))
             accuracy = model.score(X_test, y_test)
+            wandb.log({"train_loss": loss})
+            wandb.log({"accuracy": accuracy})
             return loss, len(X_test), {"accuracy": accuracy}
 
     # Start Flower client

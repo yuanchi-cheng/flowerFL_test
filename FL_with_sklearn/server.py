@@ -3,7 +3,8 @@ import utils
 from sklearn.metrics import log_loss
 from sklearn.linear_model import LogisticRegression
 from typing import Dict
-
+import wandb 
+import argparse
 
 def fit_round(server_round: int) -> Dict:
     """Send round number to client."""
@@ -31,15 +32,32 @@ def get_evaluate_fn(model: LogisticRegression):
 
 # Start Flower server for five rounds of federated learning
 if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description="Flower-Server")
+    parser.add_argument("--strategy", type=str, default= 'fedavg')
+    parser.add_argument("--fr_rate", type=float, default=0.0)
+    parser.add_argument("--fr_val_rate", type=float, default=0.0)
+    parser.add_argument("--min_client", type=int, default=2)
+    parser.add_argument("--min_ac", type=int, default=2)
+    args = parser.parse_args()
+
     model = LogisticRegression()
     utils.set_initial_params(model)
-    strategy = fl.server.strategy.FedAvg(
+    if args.strategy == 'fedavg' : 
+        strategy = fl.server.strategy.FedAvg(
         min_available_clients=2,
         evaluate_fn=get_evaluate_fn(model),
         on_fit_config_fn=fit_round,
-    )
+        )
+    elif args.strategy == 'fedmedian' : 
+        strategy = fl.server.strategy.FedMedian(
+        min_available_clients=2,
+        evaluate_fn=get_evaluate_fn(model),
+        on_fit_config_fn=fit_round,
+        )
+    wandb.init(project="FL-trying", entity="circoval1001")
+    wandb.config.update(args)
     fl.server.start_server(
         server_address="127.0.0.1:8081",
         strategy=strategy,
-        config=fl.server.ServerConfig(num_rounds=5),
+        config=fl.server.ServerConfig(num_rounds=20),
     )
